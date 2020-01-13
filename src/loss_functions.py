@@ -6,4 +6,4 @@ def mean_squared_error(labels, predictions):
     """
     differences = np.subtract(labels, predictions)
     squares = np.square(differences)
-    return sum(squares) / len(labels)
+    return np.sum(squares) / len(labels[0])

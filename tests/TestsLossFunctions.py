@@ -8,11 +8,12 @@ import loss_functions as lf
 class TestLossFunctions(unittest.TestCase):
 
     def setUp(self):
-        self.labels = np.array([2,4,6,8])
-        self.predictions = np.array([1,3,5,8])
+        self.labels = np.array([[2,4,6,8]])
+        self.predictions = np.array([[1,3,5,8]])
 
     def test_mean_squared_error(self):
         loss = lf.mean_squared_error(self.labels, self.predictions)
+        print(loss)
         self.assertTrue(np.isclose(0.75, loss))
 
 
