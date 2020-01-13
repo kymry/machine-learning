@@ -1,12 +1,13 @@
 import os
 import numpy as np
-from initialize_parameters import initialize_weights_or_biases
+from initialize_parameters import initialize_weights_or_biases, add_labels
 
 class neural_network():
 
-    def __init__(self, inputs_shapes, num_layers):
-        self.num_layers = num_layers
-        self.inputs = initialize_weights_or_biases(num_layers, inputs_shapes)
+    def __init__(self, params, labels):
+        self.num_layers = len(params)
+        self.params = initialize_weights_and_biases(params)
+        add_labels_to_params(params, labels)
 
 
     def __repr__(self):
