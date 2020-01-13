@@ -1,6 +1,9 @@
 import unittest
 import numpy as np
 import math
+import sys
+import os
+sys.path.append(os.getcwd() + '/src')
 import activation_functions as af
 import initialize_parameters as ip
 
