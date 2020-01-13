@@ -1,14 +1,13 @@
 import os
 import numpy as np
-import initialize_parameters
+from initialize_parameters import initialize_weights_or_biases
 
 class neural_network():
 
-    def __init__(self, num_hidden_layers=3):
-        self.num_hidden_layers = num_hidden_layers
-        #TODO - decide best way to accept W and B shapes as input parameters
-        self.W = initialize_parameters.initialize_weights_or_biases(2, 3)
-        self.B = initialize_parameters.initialize_weights_or_biases(2, 3)
+    def __init__(self, inputs_shapes, num_layers):
+        self.num_layers = num_layers
+        self.inputs = initialize_weights_or_biases(num_layers, inputs_shapes)
+
 
     def __repr__(self):
         pass

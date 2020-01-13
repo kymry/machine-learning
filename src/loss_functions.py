@@ -1,8 +1,9 @@
 import numpy as np
 
-def mean_squared_error(actual, predicted):
-    """ actual : numpy ndarray
-        predicted : numpy ndarray """
-    difference_vector = np.subtract(actual, predicted)
-    squared_vector = np.square(difference_vector)
-    return sum(squared_vector) / len(actual)
+def mean_squared_error(labels, predictions):
+    """ labels : numpy ndarray
+        predictions : numpy ndarray
+    """
+    differences = np.subtract(labels, predictions)
+    squares = np.square(differences)
+    return sum(squares) / len(labels)

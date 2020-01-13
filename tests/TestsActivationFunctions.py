@@ -25,11 +25,6 @@ class TestActivationFunctions(unittest.TestCase):
     def test_tanh_dx(self):
         pass
 
-class TestInitializeParameters(unittest.TestCase):
-
-    def test_initialize_w_b(self):
-        pass
-
 
 if __name__ == '__main__':
     unittest.main()
