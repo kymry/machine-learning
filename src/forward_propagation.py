@@ -8,8 +8,8 @@ def forward_propagation(params, labels, input):
         values Z and A.
 
         params = {W^l: ndarray, b^l: ndarray}
-        Z^l = W^l * W^l-1 + b^l
-        A^l = activation_function(Z^l)
+        cache = {Z^l: W^l * W^l-1 + b^l, A^l: activation_function(Z^l)}
+        input = {W^0: ndarray}
     """
     cache = {'Z0': input}
     num_layers = len(params) // 2

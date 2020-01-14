@@ -3,7 +3,7 @@ import numpy as np
 
 
 def sigmoid_dx(Z):
-    return sigmoid(Z) * sigmoid(1 - sigmoid_(Z))
+    return sigmoid(Z) * sigmoid(1 - sigmoid(Z))
 
 def sigmoid(Z):
     return 1 / (1 + np.exp(-Z))
