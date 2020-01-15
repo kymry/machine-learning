@@ -23,12 +23,23 @@ class TestBackwardPropagation(unittest.TestCase):
         self.da_loss = lf.mean_squared_error_dx(self.labels, self.params['A'+str(2)])
 
 
+
     def test_calculate_dz_output_layer(self):
         dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)], af.sigmoid_dx)
         self.assertEqual(self.cache['Z'+str(self.num_layers-1)].shape, dZ.shape)
 
     def test_calculate_db_output_layer(self):
-        
+        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)], af.sigmoid_dx)
+        db = bp.calculate_db(dZ)
+        self.assertEqual(self.params['b'+str(self.num_layers - 1)].shape, db.shape)
+
+
+    def test_calculate_dA_prev(self):
+        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)], af.sigmoid_dx)
+        dA_prev = bp.calculate_dA_prev(self.params['W'+str(self.num_layers - 1)], dZ)
+        self.assertEqual(dA_prev.shape, self.params['A'+str(self.num_layers-2)].shape)
+
+
 
 
     def test_backward_propagation(self):

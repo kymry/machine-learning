@@ -13,6 +13,6 @@ def initialize_weights_and_biases(nodes_at_layer):
 
     for layer in range(1, len(nodes_at_layer)):
         params['W' + str(layer)] = np.random.rand(nodes_at_layer[layer], nodes_at_layer[layer-1])
-        params['b' + str(layer)] = np.random.rand(nodes_at_layer[layer-1], 1)
+        params['b' + str(layer)] = np.random.rand(nodes_at_layer[layer], 1)
 
     return params

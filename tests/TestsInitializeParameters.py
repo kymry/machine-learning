@@ -18,7 +18,7 @@ class TestInitializeParameters(unittest.TestCase):
         #print(self.params)
         for l in range(1, self.num_layers):
             self.assertEqual(self.params['W' + str(l)].shape, (self.layer_shapes[l], self.layer_shapes[l-1]))
-            self.assertEqual(self.params['b' + str(l)].shape, (self.layer_shapes[l-1], 1))
+            self.assertEqual(self.params['b' + str(l)].shape, (self.layer_shapes[l], 1))
 
 
 if __name__ == '__main__':

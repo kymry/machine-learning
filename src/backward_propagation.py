@@ -18,24 +18,24 @@ def back_propagation(params, labels, loss_function_dx, activation_function_dx):
     num_layers = len(params) // 4
     dA_loss = loss_function_dx(labels, params['A' + str(num_layers)])
 
-    for l in reversed(range(num_layers - 1)):
+    for l in reversed(range(1, num_layers)):
         cache = {'W': params['W'+str(l)], 'b': params['b'+str(l)],
                  'Z': params['Z'+str(l)], 'A_prev': params['A'+str(l-1)]}
 
-        dA_prev, dZ = calculate_activation_function_dx(dA_loss, cache, activation_function_dx)
-        dW, db = calculate_linear_function_dx(dZ, cache)
+        dA_prev, dZ = activation_function_gradient(dA_loss, cache, activation_function_dx)
+        dW, db = linear_function_gradient(dZ, cache)
         update_params(cache, dW, db, LEARNING_RATE)
 
 
-def calculate_activation_function_dx(dA, cache, activation_function_dx):
+def activation_function_gradient(dA, cache, activation_function_dx):
     """ cache: Z, A_prev, W, b for the current layer only
     """
     dZ = calculate_dZ(dA, cache['Z'], activation_function_dx)
-    dA_prev = calculate_dA(cache['W'], dZ)
+    dA_prev = calculate_dA_prev(cache['W'], dZ)
     return (dA_prev, dZ)
 
 
-def calculate_linear_function_dx(dZ, cache):
+def linear_function_gradient(dZ, cache):
     """ cache: Z, A_prev, W, b for current layer only
     """
     dW = calculate_dW(dZ, cache['A_prev'])
@@ -51,7 +51,7 @@ def calculate_dZ(dA, Z, activation_function_dx):
     return np.multiply(dA, activation_function_dx(Z))
 
 
-def calculate_dA(W_next, dZ):
+def calculate_dA_prev(W_next, dZ):
     """ W_next: weight vector of next layer
         dZ: gradient of current layer linear output
     """
