@@ -8,7 +8,7 @@ from initialize_parameters import initialize_weights_and_biases
 class TestInitializeParameters(unittest.TestCase):
 
     def setUp(self):
-        self.layer_shapes = {0: 3, 1:4, 2:1}
+        self.layer_shapes = {0: 5, 1:4, 2:3}
         self.num_layers = len(self.layer_shapes)
         self.labels = np.array([2,4,6,8])
         self.input = np.array(([1,1],[2,2],[3,3]))
@@ -19,6 +19,8 @@ class TestInitializeParameters(unittest.TestCase):
         for l in range(1, self.num_layers):
             self.assertEqual(self.params['W' + str(l)].shape, (self.layer_shapes[l], self.layer_shapes[l-1]))
             self.assertEqual(self.params['b' + str(l)].shape, (self.layer_shapes[l], 1))
+
+
 
 
 if __name__ == '__main__':

@@ -11,7 +11,7 @@ def forward_propagation(params, labels, input):
         cache = {Z^l: W^l * W^l-1 + b^l, A^l: activation_function(Z^l)}
         input = {W^0: ndarray}
     """
-    cache = {'Z0': input}
+    cache = {'A0': input}
     num_layers = len(params) // 2
 
     process_hidden_layers(cache, params, num_layers)
@@ -21,7 +21,7 @@ def forward_propagation(params, labels, input):
 
 def process_hidden_layers(cache, params, num_layers):
         for layer in range(1, num_layers + 1):
-            Z = np.dot(params['W' + str(layer)], cache['Z' + str(layer - 1)])
+            Z = np.dot(params['W' + str(layer)], cache['A' + str(layer - 1)])
             A = af.sigmoid(Z)
             cache['Z' + str(layer)] = Z
             cache['A' + str(layer)] = A

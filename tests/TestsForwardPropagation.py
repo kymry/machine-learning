@@ -18,7 +18,7 @@ class TestForwardPropagation(unittest.TestCase):
 
     def test_forward_propagation(self):
         cache = forward_propagation(self.params, self.labels, self.input)
-        print(cache)
+        #print(cache)
         for l in range(1, self.num_layers):
             self.assertEqual(cache['Z' + str(l)].shape, (self.layer_shapes[l], self.num_train_examples))
             self.assertEqual(cache['A' + str(l)].shape, (self.layer_shapes[l], self.num_train_examples))

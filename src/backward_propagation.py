@@ -7,38 +7,38 @@ sys.path.append(os.getcwd() + '/src')
 LEARNING_RATE = 0.005
 
 
-def back_propagation(params, labels, loss_function_dx, activation_function_dx):
-    """ params = {W^l: ndarray,
-                  b^l: ndarray,
-                  Z^l: W^l * W^l-1 + b^l,
-                  A^l: activation_function(Z^l)}
+def back_propagation(cache, labels, num_layers, loss_function_dx, activation_function_dx):
+    """ cache = {W^l: ndarray,
+                 b^l: ndarray,
+                 Z^l: W^l * W^l-1 + b^l,
+                 A^l: activation_function(Z^l)}
         labels = true values of input data
     """
 
-    num_layers = len(params) // 4
-    dA_loss = loss_function_dx(labels, params['A' + str(num_layers)])
+    # compute gradient of loss function
+    dA_loss = loss_function_dx(labels, cache['A' + str(num_layers - 1)])
+    dA_dict = {'dA' + str(num_layers-1): dA_loss}
 
-    for l in reversed(range(1, num_layers)):
-        cache = {'W': params['W'+str(l)], 'b': params['b'+str(l)],
-                 'Z': params['Z'+str(l)], 'A_prev': params['A'+str(l-1)]}
+    # compute gradients for each layer and update weight and bias
+    for layer in reversed(range(1, num_layers)):
+        dA_prev, dZ = activation_function_gradient(dA_dict['dA'+str(l)], cache, layer, activation_function_dx)
+        dA_dict['dA'+str(l-1)] = dA_prev
+        dW, db = linear_function_gradient(dZ, cache, layer)
+        update_params(cache, dW, db, layer, LEARNING_RATE)
 
-        dA_prev, dZ = activation_function_gradient(dA_loss, cache, activation_function_dx)
-        dW, db = linear_function_gradient(dZ, cache)
-        update_params(cache, dW, db, LEARNING_RATE)
 
-
-def activation_function_gradient(dA, cache, activation_function_dx):
+def activation_function_gradient(dA, cache, layer, activation_function_dx):
     """ cache: Z, A_prev, W, b for the current layer only
     """
-    dZ = calculate_dZ(dA, cache['Z'], activation_function_dx)
-    dA_prev = calculate_dA_prev(cache['W'], dZ)
+    dZ = calculate_dZ(dA, cache['Z'+str(layer)], activation_function_dx)
+    dA_prev = calculate_dA_prev(cache['W'+str(layer)], dZ)
     return (dA_prev, dZ)
 
 
-def linear_function_gradient(dZ, cache):
+def linear_function_gradient(dZ, cache, layer):
     """ cache: Z, A_prev, W, b for current layer only
     """
-    dW = calculate_dW(dZ, cache['A_prev'])
+    dW = calculate_dW(dZ, cache['A'+str(layer-1)])
     db = calculate_db(dZ)
 
     return (dW, db)
@@ -63,7 +63,7 @@ def calculate_dW(dZ, A_prev):
         A_prev: non-linear output of previous layer
     """
     num_training_examples = len(dZ[0])
-    return np.dot(dZ, A_prez.T) / num_training_examples
+    return np.dot(dZ, A_prev.T) / num_training_examples
 
 
 def calculate_db(dZ):
@@ -73,8 +73,8 @@ def calculate_db(dZ):
     return np.sum(dZ, axis=1, keepdims=True) / num_training_examples
 
 
-def update_params(cache, dW, db, learning_rate):
+def update_params(cache, dW, db, layer, learning_rate):
     """ cache: Z, A_prev, W, b for the current layer only
     """
-    cache['W'] = cache['W'] - learning_rate * dW
-    cache['b'] = cache['b'] - learning_Rate * db
+    cache['W'+str(layer)] = cache['W'+str(layer)] - learning_rate * dW
+    cache['b'+str(layer)] = cache['b'+str(layer)] - learning_rate * db
