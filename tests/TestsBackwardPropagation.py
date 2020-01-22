@@ -25,34 +25,34 @@ class TestBackwardPropagation(unittest.TestCase):
 
     def test_all_layers(self):
         pprint.pprint(self.params)
-        gradients = bp.back_propagation(self.params, self.labels, self.num_layers, lf.mean_squared_error_dx, af.sigmoid_dx)
+        bp.back_propagation(self.params, self.labels, self.num_layers)
         pprint.pprint(self.params)
 
     def test_dz_output_layer(self):
-        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)], af.sigmoid_dx)
+        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)])
         self.assertEqual(self.cache['Z'+str(self.num_layers-1)].shape, dZ.shape)
 
 
     def test_db_output_layer(self):
-        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)], af.sigmoid_dx)
+        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)])
         db = bp.calculate_db(dZ)
         self.assertEqual(self.params['b'+str(self.num_layers - 1)].shape, db.shape)
 
 
     def test_dA_prev(self):
-        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)], af.sigmoid_dx)
+        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)])
         dA_prev = bp.calculate_dA_prev(self.params['W'+str(self.num_layers - 1)], dZ)
         self.assertEqual(dA_prev.shape, self.params['A'+str(self.num_layers-2)].shape)
 
 
     def test_dW(self):
-        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)], af.sigmoid_dx)
+        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)])
         dW = bp.calculate_dW(dZ, self.params['A'+str(self.num_layers-2)])
         self.assertEqual(dW.shape, self.params['W'+str(self.num_layers-1)].shape)
 
 
     def test_db(self):
-        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)], af.sigmoid_dx)
+        dZ = bp.calculate_dZ(self.da_loss, self.cache['Z'+str(self.num_layers - 1)])
         db = bp.calculate_db(dZ)
         self.assertEqual(db.shape, self.params['b'+str(self.num_layers-1)].shape)
 

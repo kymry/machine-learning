@@ -13,4 +13,4 @@ def generate_sin_test_data(num_training_examples):
 
 if __name__ == "__main__":
     np.set_printoptions(suppress=True)
-    print(generate_sin_test_data(4))
+    print(generate_sin_test_data(50))

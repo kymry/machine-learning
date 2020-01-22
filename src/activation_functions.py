@@ -1,6 +1,10 @@
 import math
 import numpy as np
 
+def create_function_dictionary():
+    dict = {'sigmoid': sigmoid,
+            'tanh': tanh}
+    return dict
 
 def sigmoid_dx(Z):
     return sigmoid(Z) * sigmoid(1 - sigmoid(Z))

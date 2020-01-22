@@ -1,5 +1,10 @@
 import numpy as np
 
+def create_function_dictionary():
+    dict = {'MeanSquaredError': mean_squared_error,
+            'CrossEntropyLoss': cross_entropy_loss}
+    return dict
+
 def mean_squared_error(labels, predictions):
     """ labels : numpy ndarray
         predictions : numpy ndarray
