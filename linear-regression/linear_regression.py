@@ -4,7 +4,7 @@ import random as rn
 
 class RegressionModel:
 
-    def __init__(self, X=None, y=None, predict=None):
+    def __init__(self, X, y):
         self.X = X # mxn matrix. m training examples, n features
         self.y = y # 1xn vector of labels
         self.theta = np.zeros((1, X.shape[1])) # 1xn vector of weights
