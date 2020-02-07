@@ -13,7 +13,6 @@ class RegressionModel:
     def train(self, num_iters, train_rate):
         """ Stochastic Gradient Descent """
         for _ in range(num_iters):
-
             # train with random input each iteration
             training_examples = list(range(self.num_examples))
             rn.shuffle(training_examples)

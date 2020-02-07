@@ -1,9 +1,11 @@
 import numpy as np
 
-def create_function_dictionary():
-    dict = {'MeanSquaredError': mean_squared_error,
-            'CrossEntropyLoss': cross_entropy_loss}
-    return dict
+
+def get_loss_function(name):
+    if name not in LOSS_FUNCTIONS or name not in LOSS_DERIVATIVES:
+        raise KeyError
+    else:
+        return (LOSS_FUNCTIONS[name], LOSS_DERIVATIVES[name])
 
 def mean_squared_error(labels, predictions):
     """ labels : numpy ndarray
@@ -18,14 +20,22 @@ def mean_squared_error_dx(labels, predictions):
     return np.subtract(labels, predictions)
 
 
-def cross_entropy_loss(labels, predictions):
+def cross_entropy(labels, predictions):
     """ labels : numpy ndarray
         predictions : numpy ndarray
     """
-    num_training_examples = len(labels)
-    sum_of_lossese = np.sum(labels * np.log(predictions) + (1 - labels) * np.log(1 - predictions))
-    loss = np.squeeze((-1/num_training_examples) * sum_of_losses)
+    num_classes = labels.shape[1]
+    sum_of_losses = np.sum(lables * np.log(predictions))
+    loss = np.squeeze((-1/num_classes) * sum_of_losses)
     return loss
 
-def cross_entropy_loss_dx(labels, prediction):
-    pass
+
+def cross_entropy_dx(labels, predictions):
+    return np.divide(labels, predictions) - np.divide(1 - labels, 1 - predictions)
+
+
+LOSS_FUNCTIONS = {'MeanSquaredError': mean_squared_error,
+                  'CrossEntropy': cross_entropy}
+
+LOSS_DERIVATIVES = {'MeanSquaredError': mean_squared_error_dx,
+                    'CrossEntropy': cross_entropy_dx}
